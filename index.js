@@ -12,9 +12,10 @@ function Select(inputTree, options) {
 
   options = options || {};
 
+  this.srcDir = options.srcDir || '/';
   this.acceptFiles = options.acceptFiles || options.files || [ '**/*' ];
   this.rejectFiles = options.rejectFiles || [];
-  this.outputDir = options.outputDir || '/';
+  this.outputDir = options.outputDir || options.destDir || '/';
   this.inputTree = inputTree;
 }
 
@@ -25,15 +26,18 @@ Select.prototype.write = function (readTree, destDir) {
   var acceptFiles = this.acceptFiles;
   var rejectFiles = this.rejectFiles;
   var outputDir = this.outputDir;
+  var self = this;
 
   return readTree(this.inputTree).then(function (srcDir) {
-    var rejectedFiles = getFilesRecursively(srcDir, rejectFiles);
-    var acceptedFiles = getFilesRecursively(srcDir, acceptFiles).filter(function (file) {
+    var baseDir = path.join(srcDir, self.srcDir);
+
+    var rejectedFiles = getFilesRecursively(baseDir, rejectFiles);
+    var acceptedFiles = getFilesRecursively(baseDir, acceptFiles).filter(function (file) {
       return rejectedFiles.indexOf(file) === -1;
     });
 
     acceptedFiles.forEach(function (file) {
-      var srcFile = path.join(srcDir, file);
+      var srcFile = path.join(baseDir, file);
       var destFile = path.join(destDir, outputDir, file);
       var stat = fs.lstatSync(srcFile);
 
@@ -46,5 +50,9 @@ Select.prototype.write = function (readTree, destDir) {
 };
 
 function getFilesRecursively(dir, globPatterns) {
-  return helpers.multiGlob(globPatterns, { cwd: dir });
+  return helpers.multiGlob(globPatterns, {
+    cwd: dir,
+    root: dir,
+    nomout: false
+  });
 }
