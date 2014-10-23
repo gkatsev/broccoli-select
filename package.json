@@ -22,8 +22,8 @@
   },
   "homepage": "https://github.com/mjijackson/broccoli-select",
   "dependencies": {
-    "mkdirp": "^0.4.1",
-    "broccoli-kitchen-sink-helpers": "^0.2.2",
-    "broccoli-writer": "^0.1.1"
+    "broccoli-kitchen-sink-helpers": "git://github.com/gkatsev/broccoli-kitchen-sink-helpers#multiglob",
+    "broccoli-writer": "^0.1.1",
+    "mkdirp": "^0.4.1"
   }
 }
