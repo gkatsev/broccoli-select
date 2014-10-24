@@ -24,6 +24,7 @@
   "dependencies": {
     "broccoli-kitchen-sink-helpers": "git://github.com/gkatsev/broccoli-kitchen-sink-helpers#multiglob",
     "broccoli-writer": "^0.1.1",
-    "mkdirp": "^0.4.1"
+    "mkdirp": "^0.4.1",
+    "symlink-or-copy": "^1.0.0"
   }
 }

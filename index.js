@@ -3,6 +3,7 @@ var path = require('path');
 var mkdirp = require('mkdirp');
 var Writer = require('broccoli-writer');
 var helpers = require('broccoli-kitchen-sink-helpers');
+var symlinkOrCopySync = require('symlink-or-copy').sync;
 
 module.exports = Select;
 
@@ -43,7 +44,7 @@ Select.prototype.write = function (readTree, destDir) {
 
       if (stat.isFile() || stat.isSymbolicLink()) {
         mkdirp.sync(path.dirname(destFile));
-        helpers.copyPreserveSync(srcFile, destFile, stat);
+        symlinkOrCopySync(srcFile, destFile);
       }
     });
   });
